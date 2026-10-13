@@ -3,25 +3,17 @@ using namespace std;
 
 class Solution {
 public:
-    int maxSum(vector<int>& nums, int k) {
-        vector<int> bitCount(30, 0);
+    long long maxAlternatingSum(vector<int>& nums) {
+        sort(nums.begin(), nums.end(), [](int a, int b){
+            return abs(a) < abs(b);
+        });
         long long res = 0;
-        int MOD = 1e9 + 7;
-        for(auto& it : nums){
-            for(int i = 0; i < 30; i++){
-                if(it & (1 << i)) bitCount[i]++;
-            }
+        for(int i = 0; i < nums.size() / 2; i++){
+            res -= 1LL * nums[i] * nums[i];
         }
-        for(int cnt = 0; cnt < k; cnt++){
-            long long n = 0;
-            for(int i = 0; i < 30; i++){
-                if(bitCount[i]){
-                    n |= (1LL << i);
-                    bitCount[i]--;
-                }
-            }
-            res = (res + n * n) % MOD;
+        for(int i = nums.size() / 2; i < nums.size(); i++){
+            res += 1LL * nums[i] * nums[i];
         }
-        return (int)res;
+        return res;
     }
 };
