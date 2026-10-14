@@ -3,16 +3,21 @@ using namespace std;
 
 class Solution {
 public:
-    long long maxAlternatingSum(vector<int>& nums) {
-        sort(nums.begin(), nums.end(), [](int a, int b){
-            return abs(a) < abs(b);
-        });
-        long long res = 0;
-        for(int i = 0; i < nums.size() / 2; i++){
-            res -= 1LL * nums[i] * nums[i];
+    string maxSumOfSquares(int num, int sum) {
+        string res = "";
+        while(sum && res.size() < num){
+            if(sum > 9){
+                res += "9";
+                sum -= 9;
+            }
+            else{
+                res += to_string(sum);
+                sum = 0;
+            }
         }
-        for(int i = nums.size() / 2; i < nums.size(); i++){
-            res += 1LL * nums[i] * nums[i];
+        if(sum) return "";
+        while(res.size() < num){
+            res += "0";
         }
         return res;
     }
