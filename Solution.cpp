@@ -1,23 +1,17 @@
 #include<bits/stdc++.h>
 using namespace std;
-
 class Solution {
 public:
-    string maxSumOfSquares(int num, int sum) {
-        string res = "";
-        while(sum && res.size() < num){
-            if(sum > 9){
-                res += "9";
-                sum -= 9;
+    int sumCounts(vector<int>& nums) {
+        int res = 0;
+        for(int i = 0; i < nums.size(); i++){
+            unordered_set<int> st;
+            for(int j = i; j < nums.size(); j++){
+                st.insert(nums[j]);
+                int add = st.size();
+                add *= add;
+                res += add;
             }
-            else{
-                res += to_string(sum);
-                sum = 0;
-            }
-        }
-        if(sum) return "";
-        while(res.size() < num){
-            res += "0";
         }
         return res;
     }
