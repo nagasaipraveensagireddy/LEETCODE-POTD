@@ -8,11 +8,23 @@ int main(){
         return 1;
     }
     Solution obj;
-    int num, sum;
-    string expected;
+    int m, n, expected;
     int testCase = 1;
-    while(file >> num >> sum >> expected){
-        string res = obj.maxSumOfSquares(num, sum);
+    while(file >> m >> n){
+        vector<vector<int>>obstacles(m, vector<int>(n));
+        for(int i = 0; i < m; i++){
+            for(int j = 0; j < n; j++){
+                if(!(file >> obstacles[i][j])){
+                    cout<<"Inavlid array input in test case :"<<testCase;
+                    return 1;
+                }
+            }
+        }
+        if(!(file >> expected)){
+            cout<<"Inavlid expected data in test case :"<<testCase;
+                return 1;
+        }
+        int res = obj.uniquePathsWithObstacles(obstacles);
         if(res == expected){
             cout<<"Test case: "<<testCase<<endl;
             cout<<"Status: PASS"<<endl;
