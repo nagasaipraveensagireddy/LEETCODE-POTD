@@ -8,23 +8,21 @@ int main(){
         return 1;
     }
     Solution obj;
-    int m, n, expected;
+    int n, expected;
     int testCase = 1;
-    while(file >> m >> n){
-        vector<vector<int>>obstacles(m, vector<int>(n));
-        for(int i = 0; i < m; i++){
-            for(int j = 0; j < n; j++){
-                if(!(file >> obstacles[i][j])){
-                    cout<<"Inavlid array input in test case :"<<testCase;
-                    return 1;
-                }
+    while(file >> n){
+        vector<int> nums(n);
+        for(int i = 0; i < n; i++){
+            if(!(file >> nums[i])){
+                cout<<"Inavlid array input in test case :"<<testCase;
+                return 1;
             }
         }
         if(!(file >> expected)){
             cout<<"Inavlid expected data in test case :"<<testCase;
                 return 1;
         }
-        int res = obj.uniquePathsWithObstacles(obstacles);
+        int res = obj.minSwaps(nums);
         if(res == expected){
             cout<<"Test case: "<<testCase<<endl;
             cout<<"Status: PASS"<<endl;

@@ -1,22 +1,41 @@
-#include<bits/stdc++.h>
-using namespace std;
 class Solution {
 public:
-    int dfs(vector<vector<int>>& obstacleGrid, vector<vector<int>>& dp,
-        int i, int j, int m, int n){
-        if(i == m || j == n || obstacleGrid[i][j]) return 0;
-        if(i == m - 1 && j == n - 1) return 1;
-        if(dp[i][j] != -1) return dp[i][j];
-        int d = dfs(obstacleGrid, dp, i + 1, j, m, n);
-        int r = dfs(obstacleGrid, dp, i, j + 1, m, n);
-        dp[i][j] = d + r;
-        return d + r;
+    static bool compare(int num1, int num2){
+        int a = num1, b = num2;
+        int x = 0, y = 0;
+        while(a){
+            int d = a % 10;
+            x += d;
+            a /= 10;
+        }
+        while(b){
+            int d = b % 10;
+            y += d;
+            b /= 10;
+        }
+        if(x == y) return num1 < num2;
+        return x < y;
     }
-    int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {
-        int m = obstacleGrid.size();
-        int n = obstacleGrid[0].size();
-        vector<vector<int>> dp(m, vector<int>(n, -1));
-        int res = dfs(obstacleGrid, dp, 0, 0, m, n);
-        return res;
+    int minSwaps(vector<int>& nums) {
+        unordered_map<int, int> mpp;
+        for(int i = 0; i < nums.size(); i++){
+            mpp[nums[i]] = i;
+        }
+        sort(nums.begin(), nums.end(), compare);
+        int cnt = 0;
+        vector<int> visited(nums.size(), 0);
+        for(int i = 0; i < nums.size(); i++){
+            if(i == mpp[nums[i]] || visited[i]) continue;
+
+            int cycleSize = 0;
+            int j = i;
+            while(!visited[j]){
+                visited[j] = 1;
+                j = mpp[nums[j]];
+                cycleSize++;
+            }
+            cnt += cycleSize - 1; 
+        }
+        return cnt;
     }
 };
