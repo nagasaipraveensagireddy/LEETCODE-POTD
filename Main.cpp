@@ -22,7 +22,7 @@ int main(){
             cout<<"Inavlid expected data in test case :"<<testCase;
                 return 1;
         }
-        int res = obj.minSwaps(nums);
+        int res = obj.numOfWays(nums);
         if(res == expected){
             cout<<"Test case: "<<testCase<<endl;
             cout<<"Status: PASS"<<endl;

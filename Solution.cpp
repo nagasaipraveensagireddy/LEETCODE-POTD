@@ -1,41 +1,32 @@
 class Solution {
 public:
-    static bool compare(int num1, int num2){
-        int a = num1, b = num2;
-        int x = 0, y = 0;
-        while(a){
-            int d = a % 10;
-            x += d;
-            a /= 10;
-        }
-        while(b){
-            int d = b % 10;
-            y += d;
-            b /= 10;
-        }
-        if(x == y) return num1 < num2;
-        return x < y;
-    }
-    int minSwaps(vector<int>& nums) {
-        unordered_map<int, int> mpp;
-        for(int i = 0; i < nums.size(); i++){
-            mpp[nums[i]] = i;
-        }
-        sort(nums.begin(), nums.end(), compare);
-        int cnt = 0;
-        vector<int> visited(nums.size(), 0);
-        for(int i = 0; i < nums.size(); i++){
-            if(i == mpp[nums[i]] || visited[i]) continue;
-
-            int cycleSize = 0;
-            int j = i;
-            while(!visited[j]){
-                visited[j] = 1;
-                j = mpp[nums[j]];
-                cycleSize++;
+    long long power(long long base, long long exp, long long MOD){
+        long long res = 1;
+        base = base % MOD;
+        while(exp){
+            if(exp & 1){
+                res = (res * base) % MOD;
             }
-            cnt += cycleSize - 1; 
+            exp /= 2;
+            base = (base * base) % MOD;
         }
-        return cnt;
+        return res;
     }
-};
+    int numOfWays(vector<int>& nums) {
+        int MOD = 1e9 + 7;
+        int n = nums.size();
+        long long fact = 1, sizes = 1;
+        vector<int> insertionTime(n + 2, -1);
+        for(int i = 0; i < n; i++) insertionTime[nums[i]] = i;
+        for(int i = 2; i <= n; i++) fact = (fact * i) % MOD; //constraint 2
+        vector<int> stack = {0};
+        for(int v = 1; v <= n + 1; v++){
+            while(insertionTime[stack.back()] > insertionTime[v]){
+                stack.pop_back();
+                sizes = sizes * (v - stack.back() - 1) % MOD;
+            }
+            stack.push_back(v);
+        }
+        return (fact * power(sizes, MOD - 2, MOD) - 1 + MOD) % MOD;
+    }
+}; 
