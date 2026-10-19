@@ -8,9 +8,9 @@ int main(){
         return 1;
     }
     Solution obj;
-    int n, expected;
+    int n, target, expectedSize;
     int testCase = 1;
-    while(file >> n){
+    while(file >> n >> target){
         vector<int> nums(n);
         for(int i = 0; i < n; i++){
             if(!(file >> nums[i])){
@@ -18,23 +18,37 @@ int main(){
                 return 1;
             }
         }
-        if(!(file >> expected)){
-            cout<<"Inavlid expected data in test case :"<<testCase;
+        if(!(file >> expectedSize)){
+            cout<<"Inavlid expectedSize in test case :"<<testCase;
                 return 1;
         }
-        int res = obj.numOfWays(nums);
+        vector<int> expected(expectedSize);
+        for(int i = 0; i < expectedSize; i++){
+            if(!(file >> expected[i])){
+                cout<<"Inavlid expected data in test case :"<<testCase;
+                return 1;
+            }
+        }
+        vector<int> res = obj.targetIndices(nums, target);
         if(res == expected){
             cout<<"Test case: "<<testCase<<endl;
             cout<<"Status: PASS"<<endl;
-            cout<<"Expected Result:"<<expected<<endl;
-            cout<<"Actual Result: "<<res<<endl;
+            cout<<"Expected Result:"<<endl;
+            for(auto& it : expected) cout<<it<<" ";
+            cout<<endl;
+            cout<<"Actual Result: "<<endl;
+            for(auto& it : res) cout<<it<<" ";
+            cout<<endl;
             cout<<"______________________________\n";
         }
         else{
             cout<<"Test case: "<<testCase<<endl;
             cout<<"Status: FAIL"<<endl;
-            cout<<"Expected Result:"<<expected<<endl;
-            cout<<"Actual Result: "<<res<<endl;
+            for(auto& it : expected) cout<<it<<" ";
+            cout<<endl;
+            cout<<"Actual Result: "<<endl;
+            for(auto& it : res) cout<<it<<" ";
+            cout<<endl;
             cout<<"______________________________\n";
         }
         testCase++;
