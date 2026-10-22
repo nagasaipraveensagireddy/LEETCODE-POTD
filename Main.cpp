@@ -10,16 +10,22 @@ int main(){
     }
 
     Solution obj;
-    string s;
-    int expected;
+    int n, expected;
     int testCase = 1;
 
-    while(file >> s){
+    while(file >> n){
+        vector<int> nums(n);
+        for(int i = 0; i < n; i++){
+            if(!(file >> nums[i])){
+                cout<<"Invalid array input in test case :"<<testCase;
+                return 1;
+            }
+        }
         if(!(file >> expected)){
             cout<<"Inavlid expected data in test case :"<<testCase;
             return 1;
         }
-        int res = obj.minOperations(s);
+        int res = obj.minOperations(nums);
         if(res == expected){
             cout<<"Test case: "<<testCase<<endl;
             cout<<"Status: PASS"<<endl;

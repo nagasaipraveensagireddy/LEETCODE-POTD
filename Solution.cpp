@@ -1,20 +1,21 @@
 class Solution {
 public:
-    int minOperations(string s) {
-        int n = s.size();
-        char mini = s[0], maxi = s[0];
-        int isSorted = 1;
+    int minOperations(vector<int>& nums) {
+        int n = nums.size();
+        int asc = 1, desc = 1;
         for(int i = 1; i < n; i++){
-            if(s[i] < s[i - 1]) isSorted = 0;
-            if(s[i] < mini) mini = s[i];
-            if(s[i] > maxi) maxi = s[i]; 
+            //using %n for 0, n - 1 pair here, take an exmp and try
+            asc += nums[i] == (nums[i - 1] + 1) % n;
+            //%n for n - 1, 0 case
+            desc += nums[i - 1] == (nums[i] + 1) % n;
         }
-        if(isSorted) return 0;
-        if(n == 2) return -1;
-        if(s[0] == mini || s[n - 1] == maxi) return 1;
-        for(int i = 1; i < n - 1; i++){
-            if(s[i] == mini || s[i] == maxi) return 2;
+        if(asc == n){
+            return nums[0] ? min(n - nums[0], nums[0] + 2) : 0;
         }
-        return 3;
+
+        if(desc == n){
+            return min(n - nums[n - 1], nums[n - 1]) + 1;
+        }
+        return -1;
     }
 };
